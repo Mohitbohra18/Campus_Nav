@@ -73,11 +73,12 @@ nav ul li a.active {
 /* Main Container */
 .navigation-container {
     display: flex;
-    height: calc(100vh - 200px);
+    min-height: calc(100vh - 200px);
     max-width: 1400px;
     margin: 2rem auto;
     gap: 2rem;
     padding: 0 2rem;
+    margin-bottom: 4rem;
 }
 
 /* Map Section */
