@@ -3,69 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAMPUSNAV-AI</title>
+    <title>CAMPUSNAV-AI - Smart Campus Navigation System</title>
+    <meta name="description" content="CAMPUSNAV-AI is your ultimate navigation companion for Graphic Era Hill University, Dehradun. Navigate through campuses with interactive maps and AI assistance.">
+    <meta name="keywords" content="campus navigation, Graphic Era University, Dehradun, AI navigation, interactive maps">
+    <meta name="author" content="CAMPUSNAV-AI Team">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://campusnav-ai.com/">
+    <meta property="og:title" content="CAMPUSNAV-AI - Smart Campus Navigation">
+    <meta property="og:description" content="Navigate through Graphic Era Hill University campuses with AI-powered assistance and interactive maps.">
+    <meta property="og:image" content="./images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://campusnav-ai.com/">
+    <meta property="twitter:title" content="CAMPUSNAV-AI - Smart Campus Navigation">
+    <meta property="twitter:description" content="Navigate through Graphic Era Hill University campuses with AI-powered assistance and interactive maps.">
+    <meta property="twitter:image" content="./images/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+    <link rel="manifest" href="./images/site.webmanifest">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/home.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script src="./js/navigation.js" defer></script>
 </head>
-<body>
+<body class="light-theme">
     <header class="animate__animated animate__fadeIn">
         <div class="logo-container">
-            <h1>CAMPUSNAV-AI</h1>
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>CAMPUSNAV-AI</h1>
+            </div>
+            <p class="tagline">Smart Campus Navigation System</p>
         </div>
     </header>
 
     <nav class="animate__animated animate__slideInDown">
         <ul>
-            <li><a href="./index.html" class="active">Home</a></li>
-            <li><a href="./about-us.html">About Us</a></li>
-            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="./about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="./contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li class="theme-toggle-container">
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <i class="fas fa-sun light-icon"></i>
+                    <i class="fas fa-moon dark-icon"></i>
+                </button>
+            </li>
         </ul>
     </nav>
 
     <main>
         <section class="intro wow animate__animated animate__fadeIn">
             <h2>Welcome to CAMPUSNAV-AI</h2>
-            <p>CAMPUSNAV-AI is your ultimate navigation companion for the campus and beyond! Whether you're exploring inside the campus, navigating to external locations like hostels or the hill campus, or seeking assistance from our Hill Campus Bot, we've got you covered. Choose a section below to get started.</p>
+            <p>CAMPUSNAV-AI is your ultimate navigation companion for Graphic Era Hill University, Dehradun! Whether you're exploring inside the campus, navigating to external locations like hostels or the hill campus, or seeking assistance from our AI Campus Bot, we've got you covered. Choose a section below to get started.</p>
+            
         </section>
 
         <section class="sections">
+            <a href="./campus-selection.html" class="card wow animate__animated animate__fadeInUp" style="text-decoration: none; color: inherit;">
                 <div class="card-content">
-                    <a href="./campus-selection.html" class="card wow animate__animated animate__fadeInUp" style="text-decoration: none; color: inherit;">
-
-                    <div class="icon-container icon-indoor"></div>
+                    <div class="icon-container">
+                        <i class="fas fa-building"></i>
+                    </div>
                     <h3 class="card-title">Inside Navigation</h3>
-                    <p class="card-description">Navigate through Hill and Deemed campuses with interactive maps</p></a>
+                    <p class="card-description">Navigate through Hill and Deemed campuses with interactive maps and real-time routing</p>
+                    
                 </div>
+            </a>
             
+            <a href="./outside-navigation.html" class="card wow animate__animated animate__fadeInUp" data-wow-delay="0.2s" style="text-decoration: none; color: inherit;">
                 <div class="card-content">
-                    <a href="./outside-navigation.html" class="card wow animate__animated animate__fadeInUp" data-wow-delay="0.2s" style="text-decoration: none; color: inherit;"> 
-
-                    <div class="icon-container icon-outdoor"></div>
+                    <div class="icon-container">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
                     <h3 class="card-title">Outside Navigation</h3>
-                    <p class="card-description">Find routes to external locations like hostels and off-campus areas</p></div></a>
+                    <p class="card-description">Find routes to external locations like hostels, markets, and off-campus areas</p>
+                    
                 </div>
-            
-                <div class="card-content">
-                    <a href="./ask-the-bot.html" class="card wow animate__animated animate__fadeInUp" data-wow-delay="0.4s" style="text-decoration: none; color: inherit;">
+            </a>
 
-                    <div class="icon-container icon-bot"></div>
+            <a href="./ask-the-bot.html" class="card wow animate__animated animate__fadeInUp" data-wow-delay="0.4s" style="text-decoration: none; color: inherit;">
+                <div class="card-content">
+                    <div class="icon-container">
+                        <i class="fas fa-robot"></i>
+                    </div>
                     <h3 class="card-title">Ask the Bot</h3>
-                    <p class="card-description">Get instant help and answers from our AI campus assistant</p></a>
+                    <p class="card-description">Get instant help and answers from our AI campus assistant for any queries</p>
+                    
                 </div>
-           
+            </a>
         </section>
     </main>
 
     <footer class="animate__animated animate__fadeIn">
-        <p>© 2025 CAMPUSNAV-AI. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-map-marked-alt"></i> CAMPUSNAV-AI</h4>
+                <p>Smart navigation system for Graphic Era Hill University, Dehradun</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="./campus-selection.html">Inside Navigation</a></li>
+                    <li><a href="./outside-navigation.html">Outside Navigation</a></li>
+                    <li><a href="./ask-the-bot.html">Ask the Bot</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CAMPUSNAV-AI. All rights reserved. | Graphic Era Hill University, Dehradun</p>
+        </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             new WOW().init();
+        });
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to light theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.className = `${savedTheme}-theme`;
+        
+        // Update toggle button state
+        function updateToggleState() {
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.querySelector('.light-icon').style.display = isDark ? 'none' : 'inline-block';
+            themeToggle.querySelector('.dark-icon').style.display = isDark ? 'inline-block' : 'none';
+        }
+        
+        // Initialize toggle state
+        updateToggleState();
+        
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.classList.contains('dark-theme');
+            
+            if (isDark) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            updateToggleState();
         });
     </script>
 </body>

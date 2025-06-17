@@ -4,105 +4,366 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - CAMPUSNAV-AI</title>
+    <meta name="description" content="Meet the CAMPUSNAV-AI development team. Learn about our mission to revolutionize campus navigation at Graphic Era Hill University.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/about.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-    <script src="./js/main.js" defer></script>
 </head>
-<body>
+<body class="light-theme">
     <header class="animate__animated animate__fadeIn">
         <div class="logo-container">
-            <h1>CAMPUSNAV-AI</h1>
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>CAMPUSNAV-AI</h1>
+            </div>
+            <p class="tagline">Smart Campus Navigation System</p>
         </div>
     </header>
 
     <nav class="animate__animated animate__slideInDown">
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about-us.html" class="active">About Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="./index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="./about-us.html" class="active"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="./contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li class="theme-toggle-container">
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <i class="fas fa-sun light-icon"></i>
+                    <i class="fas fa-moon dark-icon"></i>
+                </button>
+            </li>
         </ul>
     </nav>
 
     <main>
         <section class="about-hero wow animate__animated animate__fadeIn">
             <h2>About CAMPUSNAV-AI</h2>
-            <p>Your intelligent campus navigation companion</p>
+            <p>Revolutionizing campus navigation at Graphic Era Hill University with AI-powered assistance and interactive maps.</p>
         </section>
 
-        <section class="about-content">
-            <div class="mission-vision wow animate__animated animate__fadeInLeft">
-                <div class="card">
-                    <h3>Our Mission</h3>
-                    <p>To revolutionize campus navigation by providing intelligent, user-friendly solutions that make navigation effortless for students, faculty, and visitors.</p>
-                </div>
-                <div class="card">
-                    <h3>Our Vision</h3>
-                    <p>To become the leading AI-powered navigation solution for educational institutions worldwide, making campus exploration an enjoyable experience.</p>
-                </div>
-            </div>
-
-            <div class="features wow animate__animated animate__fadeInRight">
-                <h3>Key Features</h3>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <i class="icon-indoor"></i>
-                        <h4>Indoor Navigation</h4>
-                        <p>Precise navigation inside campus buildings</p>
+        <section class="mission-section wow animate__animated animate__fadeIn" data-wow-delay="0.2s">
+            <div class="mission-content">
+                <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                <p>CAMPUSNAV-AI aims to transform the way students, faculty, and visitors navigate through Graphic Era Hill University campuses. By combining cutting-edge AI technology with interactive mapping solutions, we provide an intuitive, efficient, and user-friendly navigation experience that enhances campus life.</p>
+                
+                <div class="mission-features">
+                    <div class="feature wow animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <h4>Smart Navigation</h4>
+                        <p>AI-powered route optimization and real-time guidance</p>
                     </div>
-                    <div class="feature-card">
-                        <i class="icon-outdoor"></i>
-                        <h4>Outdoor Navigation</h4>
-                        <p>Seamless navigation across campus grounds</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="icon-map"></i>
-                        <h4>Interactive Maps</h4>
-                        <p>Real-time location tracking and mapping</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="icon-bot"></i>
+                    <div class="feature wow animate__animated animate__fadeInUp" data-wow-delay="0.6s">
+                        <i class="fas fa-robot"></i>
                         <h4>AI Assistant</h4>
-                        <p>To answer the basic daily to daily questions regarding campus</p>
+                        <p>24/7 intelligent support for all navigation queries</p>
+                    </div>
+                    <div class="feature wow animate__animated animate__fadeInUp" data-wow-delay="0.8s">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h4>Mobile First</h4>
+                        <p>Responsive design optimized for all devices</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="team-section wow animate__animated animate__fadeInUp">
-                <h3>Our Team</h3>
-                <div class="team-grid">
-                    <div class="team-member">
-                        <div class="member-photo"></div>
-                        <h4>Krishna Choudhary</h4>
-                        <p>Project Lead/AI Developer</p>
+        <section class="team-section wow animate__animated animate__fadeIn" data-wow-delay="0.4s">
+            <h3><i class="fas fa-users"></i> Meet Our Team</h3>
+            <p class="team-intro">Our dedicated team of developers and designers worked collaboratively to bring CAMPUSNAV-AI to life. Each member contributed their unique skills and expertise to create this innovative campus navigation solution.</p>
+            
+            <div class="slideshow-container" id="teamSlideshow">
+                <!-- Team Member 1 - Major Contributor -->
+                <div class="team-member major-contributor slide">
+                    <div class="member-avatar">
+                        <i class="fas fa-user-graduate"></i>
                     </div>
-                    <div class="team-member">
-                        <div class="member-photo"></div>
-                        <h4>Sonali Upadhyay</h4>
-                        <p>Backend Developer</p>
+                    <div class="member-info">
+                        <h4>Sonali</h4>
+                        <p class="role">Lead Developer & Project Coordinator</p>
+                        <div class="contributions">
+                            <h5>Key Contributions:</h5>
+                            <ul>
+                                <li>Full-stack development (50% of backend & frontend)</li>
+                                <li>Database design & API development</li>
+                                <li>OpenStreetMap integration & map features</li>
+                                <li>UI/UX design & responsive layouts</li>
+                                <li>System architecture & project management</li>
+                                <li>SEO & social media integration</li>
+                            </ul>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Spring Boot</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">HTML/CSS</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">OpenStreetMap</span>
+                        </div>
                     </div>
-                    <div class="team-member">
-                        <div class="member-photo"></div>
+                </div>
+
+                <!-- Team Member 2 - Co-Developer -->
+                <div class="team-member co-developer slide">
+                    <div class="member-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="member-info">
                         <h4>Kunal Khati</h4>
-                        <p>UI/UX Designer</p>
+                        <p class="role">Backend Developer & Database Specialist</p>
+                        <div class="contributions">
+                            <h5>Key Contributions:</h5>
+                            <ul>
+                                <li>Backend API development (50% of backend+javascript functionality)</li>
+                                <li>Database schema design & optimization</li>
+                                <li>Navigation algorithm implementation</li>
+                                <li>Security implementation & testing</li>
+                                <li>Bug fixing & code optimization</li>
+                                <li>Technical documentation</li>
+                            </ul>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">Spring Boot</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">REST APIs</span>
+                        </div>
                     </div>
-                    <div class="team-member">
-                        <div class="member-photo"></div>
-                        <h4>Vipul Rawat</h4>
-                        <p>Database Developer</p>
+                </div>
+
+                <!-- Team Member 3 - AI Specialist -->
+                <div class="team-member ai-specialist slide">
+                    <div class="member-avatar">
+                        <i class="fas fa-brain"></i>
                     </div>
+                    <div class="member-info">
+                        <h4>Krishna Choudhary</h4>
+                        <p class="role">Team leader and AI/ML Specialist & Bot Developer</p>
+                        <div class="contributions">
+                            <h5>Key Contributions:</h5>
+                            <ul>
+                                <li>AI chatbot development & training</li>
+                                <li>Natural Language Processing (NLP)</li>
+                                <li>Conversational AI design</li>
+                                <li>AI model integration & optimization</li>
+                                <li>AI performance analytics</li>
+                                <li>AI training data preparation</li>
+                            </ul>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">NLP</span>
+                            <span class="tech-tag">Machine Learning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 - Supporting Role -->
+                <div class="team-member supporting-role slide">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="member-info">
+                        <h4>Vipul</h4>
+                        <p class="role">UI/UX Assistant & Content Contributor</p>
+                        <div class="contributions">
+                            <h5>Key Contributions:</h5>
+                            <ul>
+                                <li>UI design assistance & feedback</li>
+                                <li>Content writing & copy editing</li>
+                                <li>Image & asset preparation</li>
+                                <li>Quality assurance & testing</li>
+                                <li>Documentation assistance</li>
+                                <li>Feature suggestions</li>
+                            </ul>
+                        </div>
+                        <div class="tech-stack">
+                            <span class="tech-tag">UI/UX</span>
+                            <span class="tech-tag">Content Writing</span>
+                            <span class="tech-tag">Testing</span>
+                        </div>
+                    </div>
+                </div>
+                <a class="prev" onclick="plusSlides(1, 'teamSlideshow')">&#10094;</a>
+                <a class="next" onclick="plusSlides(-1, 'teamSlideshow')">&#10095;</a>
+                <div class="dots-container" id="teamDots">
+                </div>
+            </div>
+        </section>
+
+        <!-- Combined Slideshow for Project Stats, Technologies, and Achievements -->
+        <section class="combined-info-section wow animate__animated animate__fadeIn" data-wow-delay="0.6s">
+            <h3><i class="fas fa-chart-line"></i> Project Overview</h3>
+            <div class="slideshow-container" id="combinedSlideshow">
+                <!-- Project Statistics Slide -->
+                <div class="info-slide slide">
+                    <h3><i class="fas fa-chart-bar"></i> Project Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-code"></i>
+                            <h4>10,000+</h4>
+                            <p>Lines of Code</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <h4>200+</h4>
+                            <p>Development Hours</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-file-code"></i>
+                            <h4>25+</h4>
+                            <p>Files Created</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-users"></i>
+                            <h4>4</h4>
+                            <p>Team Members</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technologies Used Slide -->
+                <div class="info-slide slide">
+                    <h3><i class="fas fa-tools"></i> Technologies Used</h3>
+                    <div class="tech-categories">
+                        <div class="tech-category">
+                            <h4><i class="fas fa-server"></i> Backend</h4>
+                            <div class="tech-items">
+                                <span>Spring Boot</span>
+                                <span>Java</span>
+                                <span>MySQL</span>
+                                <span>REST APIs</span>
+                            </div>
+                        </div>
+                        <div class="tech-category">
+                            <h4><i class="fas fa-desktop"></i> Frontend</h4>
+                            <div class="tech-items">
+                                <span>HTML5</span>
+                                <span>CSS3</span>
+                                <span>JavaScript</span>
+                                <span>Font Awesome</span>
+                            </div>
+                        </div>
+                        <div class="tech-category">
+                            <h4><i class="fas fa-map"></i> Maps & Navigation</h4>
+                            <div class="tech-items">
+                                <span>OpenStreetMap</span>
+                                <span>Leaflet.js</span>
+                                <span>Geolocation API</span>
+                            </div>
+                        </div>
+                        <div class="tech-category">
+                            <h4><i class="fas fa-brain"></i> AI & ML</h4>
+                            <div class="tech-items">
+                                <span>Python</span>
+                                <span>TensorFlow</span>
+                                <span>Natural Language Processing</span>
+                                <span>Chatbot API</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Achievements Slide -->
+                <div class="info-slide slide">
+                    <h3><i class="fas fa-trophy"></i> Project Achievements</h3>
+                    <div class="achievements-grid">
+                        <div class="achievement">
+                            <i class="fas fa-check-circle"></i>
+                            <h4>Successfully Implemented</h4>
+                            <p>Complete campus navigation system with interactive maps</p>
+                        </div>
+                        <div class="achievement">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h4>Mobile Responsive</h4>
+                            <p>Optimized for all devices and screen sizes</p>
+                        </div>
+                        <div class="achievement">
+                            <i class="fas fa-robot"></i>
+                            <h4>AI Integration</h4>
+                            <p>Intelligent chatbot for 24/7 campus assistance</p>
+                        </div>
+                        <div class="achievement">
+                            <i class="fas fa-users"></i>
+                            <h4>User-Friendly</h4>
+                            <p>Intuitive interface designed for all user types</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="prev" onclick="plusSlides(1, 'combinedSlideshow')">&#10094;</a>
+                <a class="next" onclick="plusSlides(-1, 'combinedSlideshow')">&#10095;</a>
+                <div class="dots-container" id="combinedDots">
                 </div>
             </div>
         </section>
     </main>
 
     <footer class="animate__animated animate__fadeIn">
-        <p>© 2025 CAMPUSNAV-AI. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-map-marked-alt"></i> CAMPUSNAV-AI</h4>
+                <p>Smart navigation system for Graphic Era Hill University, Dehradun</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="./campus-selection.html">Inside Navigation</a></li>
+                    <li><a href="./outside-navigation.html">Outside Navigation</a></li>
+                    <li><a href="./ask-the-bot.html">Ask the Bot</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CAMPUSNAV-AI. All rights reserved. | Graphic Era Hill University, Dehradun</p>
+        </div>
     </footer>
 
     <script>
-        new WOW().init();
+        document.addEventListener('DOMContentLoaded', function() {
+            new WOW().init();
+        });
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to light theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.className = `${savedTheme}-theme`;
+        
+        // Update toggle button state
+        function updateToggleState() {
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.querySelector('.light-icon').style.display = isDark ? 'none' : 'inline-block';
+            themeToggle.querySelector('.dark-icon').style.display = isDark ? 'inline-block' : 'none';
+        }
+        
+        // Initialize toggle state
+        updateToggleState();
+        
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.classList.contains('dark-theme');
+            
+            if (isDark) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            updateToggleState();
+        });
     </script>
+    <script src="./js/about.js"></script>
 </body>
 </html>

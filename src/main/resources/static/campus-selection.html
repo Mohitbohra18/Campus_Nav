@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Campus - CAMPUSNAV-AI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/campus-selection.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script src="./js/main.js" defer></script>
 </head>
-<body>
+<body class="light-theme">
     <header class="animate__animated animate__fadeIn">
         <div class="logo-container">
-            <h1>CAMPUSNAV-AI</h1>
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>CAMPUSNAV-AI</h1>
+            </div>
+            <p class="tagline">Smart Campus Navigation System</p>
         </div>
     </header>
 
@@ -22,6 +27,12 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about-us.html">About Us</a></li>
             <li><a href="contact.html">Contact</a></li>
+            <li class="theme-toggle-container">
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <i class="fas fa-sun light-icon"></i>
+                    <i class="fas fa-moon dark-icon"></i>
+                </button>
+            </li>
         </ul>
     </nav>
 
@@ -53,11 +64,64 @@
     </main>
 
     <footer class="animate__animated animate__fadeIn">
-        <p>© 2025 CAMPUSNAV-AI. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-map-marked-alt"></i> CAMPUSNAV-AI</h4>
+                <p>Smart navigation system for Graphic Era Hill University, Dehradun</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="./campus-selection.html">Inside Navigation</a></li>
+                    <li><a href="./outside-navigation.html">Outside Navigation</a></li>
+                    <li><a href="./ask-the-bot.html">Ask the Bot</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CAMPUSNAV-AI. All rights reserved. | Graphic Era Hill University, Dehradun</p>
+        </div>
     </footer>
 
     <script>
-        new WOW().init();
+        document.addEventListener('DOMContentLoaded', function() {
+            new WOW().init();
+        });
+
+        // Theme Toggle Functionality (copied from index.html)
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to light theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.className = `${savedTheme}-theme`;
+        
+        // Update toggle button state
+        function updateToggleState() {
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.querySelector('.light-icon').style.display = isDark ? 'none' : 'inline-block';
+            themeToggle.querySelector('.dark-icon').style.display = isDark ? 'inline-block' : 'none';
+        }
+        
+        // Initialize toggle state
+        updateToggleState();
+        
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.classList.contains('dark-theme');
+            
+            if (isDark) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            updateToggleState();
+        });
     </script>
 </body>
 </html>
