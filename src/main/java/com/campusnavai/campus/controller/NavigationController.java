@@ -75,4 +75,29 @@ public class NavigationController {
             return ResponseEntity.badRequest().body(List.of("An unexpected error occurred"));
         }
     }
+//entering new code
+    @PostMapping("/node-details")
+    public ResponseEntity<List<Node>> getNodeDetails(
+            @RequestParam String campus,
+            @RequestBody List<String> nodeNames) {
+        System.out.println("=== /api/node-details Request ===");
+        System.out.println("Requested campus: " + campus);
+        System.out.println("Requested nodes: " + nodeNames);
+        
+        try {
+            if (!campus.equalsIgnoreCase("deemed") && !campus.equalsIgnoreCase("hill") && !campus.equalsIgnoreCase("outer")) {
+                System.out.println("Invalid campus name: " + campus);
+                return ResponseEntity.badRequest().build();
+            }
+
+            List<Node> nodes = databaseAccess.findNodesByName(nodeNames, campus);
+            System.out.println("Found " + nodes.size() + " nodes with details");
+            
+            return ResponseEntity.ok(nodes);
+        } catch (Exception e) {
+            System.out.println("Error processing request: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

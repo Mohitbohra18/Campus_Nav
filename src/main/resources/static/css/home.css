@@ -78,6 +78,14 @@
     margin-bottom: 1rem;
 }
 
+.card-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+    max-width: 200px;
+}
+
 .nav-link.nav-button {
     background-color: var(--secondary-color);
     color: white;
@@ -153,6 +161,11 @@
     .icon-container {
         width: 60px;
         height: 60px;
+    }
+
+    .card-description {
+        font-size: 0.85rem;
+        max-width: 100%;
     }
 }
 

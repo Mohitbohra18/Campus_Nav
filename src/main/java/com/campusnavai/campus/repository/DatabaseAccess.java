@@ -72,6 +72,22 @@ public class DatabaseAccess {
             throw new RuntimeException("Failed to fetch edges for campus " + campus + ": " + e.getMessage(), e);
         }
     }
+//entering new code
+    public List<Node> findNodesByName(List<String> nodeNames, String campus) {
+        try {
+            if (nodeNames == null || nodeNames.isEmpty()) {
+                return Collections.emptyList();
+            }
+
+            String tableName = getNodeTableName(campus);
+            String placeholders = String.join(",", Collections.nCopies(nodeNames.size(), "?"));
+            String sql = "SELECT * FROM " + tableName + " WHERE name IN (" + placeholders + ")";
+            
+            return jdbcTemplate.query(sql, nodeNames.toArray(), (rs, rowNum) -> mapRowToNode(rs));
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Failed to fetch nodes by names for campus " + campus + ": " + e.getMessage(), e);
+        }
+    }
 
     private Node mapRowToNode(ResultSet rs) throws SQLException {
         Node node = new Node();

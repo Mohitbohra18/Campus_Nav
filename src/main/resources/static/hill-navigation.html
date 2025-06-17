@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAMPUSNAV-AI - Hill Campus Navigation</title>
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/navigation.js" defer></script>
+    <link rel="stylesheet" href="./css/hill-navigation.css">
+    <!-- Leaflet CSS - Free OpenStreetMap alternative -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="./js/hill-navigation.js" defer></script>
+    <!-- Leaflet JavaScript - Free OpenStreetMap alternative -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
     <header>
         <h1>CAMPUSNAV-AI</h1>
+        <p>Hill Campus Navigation System</p>
     </header>
 
     <nav>
@@ -20,32 +26,92 @@
         </ul>
     </nav>
 
-    <main>
-        <section class="navigation-form">
-            <h2>Hill Campus Navigation</h2>
+    <main class="navigation-container">
+        <!-- Left Side - OpenStreetMap -->
+        <section class="map-section">
+            <div class="map-header">
+                <h2>🗺️ Interactive Campus Map</h2>
+                <p>Select locations to see the route on the map</p>
+            </div>
+            <div id="map" class="google-map"></div>
+            <div class="map-info">
+                <div id="route-info" class="route-info">
+                    <h3>Route Information</h3>
+                    <p>Select source and destination to see route details</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Side - Navigation Controls -->
+        <section class="controls-section">
+            <div class="controls-header">
+                <h2>🧭 Navigation Controls</h2>
+                <p>Plan your route through Hill Campus</p>
+            </div>
+            
             <div class="form-container">
-                <label for="source">Source Location:</label>
-                <select id="source" required>
-                    <option value="" disabled selected>Select a location</option>
-                </select>
+                <div class="form-group">
+                    <label for="source">
+                        <span class="icon">📍</span>
+                        Source Location
+                    </label>
+                    <select id="source" required>
+                        <option value="" disabled selected>Select starting point</option>
+                    </select>
+                </div>
 
-                <label for="destination">Destination Location:</label>
-                <select id="destination" required>
-                    <option value="" disabled selected>Select a location</option>
-                </select>
+                <div class="form-group">
+                    <label for="destination">
+                        <span class="icon">🎯</span>
+                        Destination Location
+                    </label>
+                    <select id="destination" required>
+                        <option value="" disabled selected>Select destination</option>
+                    </select>
+                </div>
 
-                <label for="algorithm">Algorithm:</label>
-                <select id="algorithm">
-                    <option value="bfs">BFS (Fewest Steps)</option>
-                    <option value="dijkstra">Dijkstra (Shortest Distance)</option>
-                </select>
+                <div class="form-group">
+                    <label for="algorithm">
+                        <span class="icon">⚡</span>
+                        Route Algorithm
+                    </label>
+                    <select id="algorithm">
+                        <option value="bfs">BFS - Fewest Steps</option>
+                        <option value="dijkstra">Dijkstra - Shortest Distance</option>
+                    </select>
+                </div>
 
-                <button onclick="findPath()">Find Path</button>
+                <div class="button-group">
+                    <button id="findPathBtn" onclick="findPath()" class="btn-primary">
+                        <span class="icon">🔍</span>
+                        Find Route
+                    </button>
+                    <button id="clearRouteBtn" onclick="clearRoute()" class="btn-secondary">
+                        <span class="icon">🔄</span>
+                        Clear Route
+                    </button>
+                </div>
             </div>
 
             <div class="path-result">
-                <h3>Path:</h3>
-                <div id="path"></div>
+                <h3>📋 Route Details</h3>
+                <div id="path" class="path-display">
+                    <p class="placeholder">Your route will appear here...</p>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h3>⚡ Quick Actions</h3>
+                <div class="action-buttons">
+                    <button onclick="openInOpenStreetMap()" class="btn-action">
+                        <span class="icon">🌐</span>
+                        Open in OpenStreetMap
+                    </button>
+                    <button onclick="shareRoute()" class="btn-action">
+                        <span class="icon">📤</span>
+                        Share Route
+                    </button>
+                </div>
             </div>
         </section>
     </main>
@@ -55,8 +121,11 @@
     </footer>
 
     <script>
-        // Load nodes for hill campus
-        document.addEventListener('DOMContentLoaded', () => loadNodes('hill'));
+        // Load nodes for hill campus when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadNodes('hill');
+            initMap();
+        });
     </script>
 </body>
 </html> 

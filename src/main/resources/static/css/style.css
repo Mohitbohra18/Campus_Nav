@@ -182,10 +182,10 @@ footer {
 }
 
 /* Custom animations for cards */
-.card {
+ .card {
     opacity: 0;
     transform: translateY(20px);
-}
+} 
 
 .card.animate__fadeInUp {
     opacity: 1;
