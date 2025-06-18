@@ -4,37 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ask the Bot - CAMPUSNAV-AI</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/chatbot.css">
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <h1>CAMPUSNAV-AI</h1>
+<body class="light-theme">
+    <header class="animate__animated animate__fadeIn">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>CAMPUSNAV-AI</h1>
+            </div>
+            <p class="tagline">Smart Campus Navigation System</p>
+        </div>
     </header>
 
-    <!-- Navigation Bar -->
-    <nav>
+    <nav class="animate__animated animate__slideInDown">
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about-us.html">About Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="./index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="./about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="./contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+            <li><a href="./ask-the-bot.html" class="active"><i class="fas fa-robot"></i> Ask the Bot</a></li>
+            <li class="theme-toggle-container">
+                <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <i class="fas fa-sun light-icon"></i>
+                    <i class="fas fa-moon dark-icon"></i>
+                </button>
+            </li>
         </ul>
     </nav>
 
-    <!-- Main Content -->
     <main>
-        <section class="placeholder">
-            <h2>Ask the Bot</h2>
-            <p>Coming Soon! This section will feature a chatbot for Hill Campus students to assist with navigation and queries.</p>
-        </section>
+        <div class="chatbot-container">
+            <div class="chatbot-header">
+                <div class="bot-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="bot-info">
+                    <h2>Campus Navigation Assistant</h2>
+                    <p>Ask me about classroom locations in Hill Campus!</p>
+                </div>
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <i class="fas fa-robot message-icon"></i>
+                        <div class="message-text">
+                            <p>Hello! I'm your Campus Navigation Assistant. I can help you find classroom locations in Hill Campus. Try asking me questions like:</p>
+                            <ul>
+                                <li>"Where is CR 101?"</li>
+                                <li>"Tell me about Lab2"</li>
+                                <li>"How do I reach Faculty room?"</li>
+                                <li>"What's the location of B4ELECTRICALLAB1?"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+
+            <div class="chat-input-container">
+                <div class="input-wrapper">
+                    <input type="text" id="messageInput" placeholder="Ask about a classroom location..." maxlength="200">
+                    <button id="sendButton" class="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="quick-actions">
+                    <button class="quick-action-btn" data-query="Where is CR 101?">CR 101</button>
+                    <button class="quick-action-btn" data-query="Tell me about Lab2">Lab2</button>
+                    <button class="quick-action-btn" data-query="How do I reach Faculty room?">Faculty room</button>
+                    <button class="quick-action-btn" data-query="What's the location of B4ELECTRICALLAB1?">B4ELECTRICALLAB1</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <h3>Available Rooms</h3>
+            <div class="rooms-grid" id="roomsGrid">
+                <div class="loading-rooms">Loading available rooms...</div>
+            </div>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 CAMPUSNAV-AI. All rights reserved.</p>
+    <footer class="animate__animated animate__fadeIn">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-map-marked-alt"></i> CAMPUSNAV-AI</h4>
+                <p>Smart navigation system for Graphic Era Hill University, Dehradun</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="./campus-selection.html">Inside Navigation</a></li>
+                    <li><a href="./outside-navigation.html">Outside Navigation</a></li>
+                    <li><a href="./ask-the-bot.html">Ask the Bot</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CAMPUSNAV-AI. All rights reserved. | Graphic Era Hill University, Dehradun</p>
+        </div>
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new WOW().init();
+        });
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        // Check for saved theme preference or default to light theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.className = `${savedTheme}-theme`;
+        // Update toggle button state
+        function updateToggleState() {
+            const isDark = body.classList.contains('dark-theme');
+            themeToggle.querySelector('.light-icon').style.display = isDark ? 'none' : 'inline-block';
+            themeToggle.querySelector('.dark-icon').style.display = isDark ? 'inline-block' : 'none';
+        }
+        // Initialize toggle state
+        updateToggleState();
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', () => {
+            const isDark = body.classList.contains('dark-theme');
+            if (isDark) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateToggleState();
+        });
+    </script>
 </body>
 </html>
