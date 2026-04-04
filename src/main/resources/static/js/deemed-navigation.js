@@ -337,54 +337,84 @@ async function findPath() {
     }
 }
 
-// Show route on OpenStreetMap
+// Show route on map connecting each node in the path sequentially
 function showRouteOnMap(path) {
     if (path.length < 2) return;
 
-    const source = path[0];
-    const destination = path[path.length - 1];
+    // Remove previous route layers
+    if (routePolyline) {
+        if (Array.isArray(routePolyline)) {
+            routePolyline.forEach(layer => map.removeLayer(layer));
+        } else {
+            map.removeLayer(routePolyline);
+        }
+        routePolyline = null;
+    }
 
-    if (!nodeData.has(source) || !nodeData.has(destination)) {
-        console.error('Source or destination not found in node data');
+    // Collect coordinates for each node in the path in order
+    const waypoints = path
+        .filter(name => nodeData.has(name))
+        .map(name => nodeData.get(name));
+
+    if (waypoints.length < 2) {
+        console.error('Not enough valid waypoints to draw route');
         return;
     }
 
-    const sourceNode = nodeData.get(source);
-    const destNode = nodeData.get(destination);
+    const sourceNode = waypoints[0];
+    const destNode = waypoints[waypoints.length - 1];
 
-    // Remove previous route
-    if (routePolyline) {
-        map.removeLayer(routePolyline);
-    }
+    // Build sequential [lat, lng] coordinates through all route nodes
+    const latlngs = waypoints.map(wp => [wp.lat, wp.lng]);
 
-    // Create a simple straight line route (you can enhance this with actual path coordinates)
-    const routeCoordinates = [
-        [sourceNode.lat, sourceNode.lng],
-        [destNode.lat, destNode.lng]
-    ];
-
-    routePolyline = L.polyline(routeCoordinates, {
-        color: '#667eea',
-        weight: 4,
-        opacity: 0.8
+    // Glow / shadow layer beneath the main line
+    const glowLayer = L.polyline(latlngs, {
+        color: '#a78bfa',
+        weight: 10,
+        opacity: 0.22,
+        lineJoin: 'round',
+        lineCap: 'round'
     }).addTo(map);
 
-    // Fit map to show the route
-    map.fitBounds(routePolyline.getBounds());
+    // Main route polyline
+    const mainLine = L.polyline(latlngs, {
+        color: '#667eea',
+        weight: 5,
+        opacity: 0.95,
+        lineJoin: 'round',
+        lineCap: 'round'
+    }).addTo(map);
 
-    // Calculate approximate distance
-    const distance = calculateDistance(sourceNode.lat, sourceNode.lng, destNode.lat, destNode.lng);
-    const estimatedTime = Math.ceil(distance / 80); // Assuming 80 meters per minute walking speed
+    // Keep both layers so we can remove them on clear
+    routePolyline = [glowLayer, mainLine];
 
-    // Update route info with distance and duration
+    // Fit map to show the full route with some padding
+    map.fitBounds(mainLine.getBounds(), { padding: [50, 50] });
+
+    // Calculate cumulative distance through all stops
+    let totalDistance = 0;
+    for (let i = 0; i < waypoints.length - 1; i++) {
+        totalDistance += calculateDistance(
+            waypoints[i].lat, waypoints[i].lng,
+            waypoints[i + 1].lat, waypoints[i + 1].lng
+        );
+    }
+    const estimatedTime = Math.ceil(totalDistance / 80);
+    const distanceStr = totalDistance >= 1000
+        ? (totalDistance / 1000).toFixed(2) + ' km'
+        : Math.round(totalDistance) + ' m';
+
     const routeInfo = document.getElementById('route-info');
     routeInfo.innerHTML = `
         <h3>📍 Route Information</h3>
         <p><strong>From:</strong> ${sourceNode.name}</p>
         <p><strong>To:</strong> ${destNode.name}</p>
-        <p><strong>Distance:</strong> ${distance.toFixed(0)} meters</p>
-        <p><strong>Estimated Time:</strong> ${estimatedTime} minutes</p>
+        <p><strong>Stops:</strong> ${waypoints.length} nodes</p>
+        <p><strong>Est. Distance:</strong> ${distanceStr}</p>
+        <p><strong>Est. Walking Time:</strong> ~${estimatedTime} min</p>
     `;
+
+    console.log(`Route drawn through ${waypoints.length} nodes, ~${distanceStr}`);
 }
 
 // Calculate distance between two points using Haversine formula
@@ -406,7 +436,11 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 // Clear route from map
 function clearRoute() {
     if (routePolyline) {
-        map.removeLayer(routePolyline);
+        if (Array.isArray(routePolyline)) {
+            routePolyline.forEach(layer => map.removeLayer(layer));
+        } else {
+            map.removeLayer(routePolyline);
+        }
         routePolyline = null;
     }
     

@@ -43,13 +43,13 @@ mvn spring-boot:run
 ```
 
 ## 7. Access the Application
-- Open your browser: [http://localhost:8080/](http://localhost:8080/)
+- Open your browser: [http://localhost:8081/](http://localhost:8081/)
 - Use the navigation cards or chatbot as needed
 
 ## 8. Troubleshooting
 - Ensure MySQL is running and all tables are imported
 - Check Python and Java versions
-- If ports 5000/8080 are busy, stop other services or change the port in config
+- If ports 5000/8081 are busy, stop other services or change the port in config
 
 ## 9. Exporting Database for Others
 - In phpMyAdmin, select your database > Export > SQL > Go
