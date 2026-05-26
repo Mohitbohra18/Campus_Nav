@@ -337,87 +337,116 @@ async function findPath() {
     }
 }
 
-// Show route on map connecting each node in the path sequentially
+
+
+// Show route on map: direct source to destination OSRM road route (like OpenStreetMap)
+// OSRM is called with just 2 points - it finds the best road automatically.
+// Intermediate campus nodes appear in the route text list but are NOT sent to OSRM as waypoints.
 function showRouteOnMap(path) {
     if (path.length < 2) return;
 
     // Remove previous route layers
     if (routePolyline) {
         if (Array.isArray(routePolyline)) {
-            routePolyline.forEach(layer => map.removeLayer(layer));
+            routePolyline.forEach(function(layer) { map.removeLayer(layer); });
         } else {
             map.removeLayer(routePolyline);
         }
         routePolyline = null;
     }
 
-    // Collect coordinates for each node in the path in order
-    const waypoints = path
-        .filter(name => nodeData.has(name))
-        .map(name => nodeData.get(name));
+    var waypoints = path
+        .filter(function(name) { return nodeData.has(name); })
+        .map(function(name) { return nodeData.get(name); });
 
-    if (waypoints.length < 2) {
-        console.error('Not enough valid waypoints to draw route');
-        return;
-    }
+    if (waypoints.length < 2) { console.error('Not enough waypoints'); return; }
 
-    const sourceNode = waypoints[0];
-    const destNode = waypoints[waypoints.length - 1];
+    var sourceNode = waypoints[0];
+    var destNode   = waypoints[waypoints.length - 1];
 
-    // Build sequential [lat, lng] coordinates through all route nodes
-    const latlngs = waypoints.map(wp => [wp.lat, wp.lng]);
-
-    // Glow / shadow layer beneath the main line
-    const glowLayer = L.polyline(latlngs, {
-        color: '#a78bfa',
-        weight: 10,
-        opacity: 0.22,
-        lineJoin: 'round',
-        lineCap: 'round'
+    // Instant straight-line preview while OSRM loads
+    var previewCoords = [[sourceNode.lat, sourceNode.lng], [destNode.lat, destNode.lng]];
+    var glow = L.polyline(previewCoords, {
+        color: '#a78bfa', weight: 10, opacity: 0.18, lineJoin: 'round', lineCap: 'round'
     }).addTo(map);
-
-    // Main route polyline
-    const mainLine = L.polyline(latlngs, {
-        color: '#667eea',
-        weight: 5,
-        opacity: 0.95,
-        lineJoin: 'round',
-        lineCap: 'round'
+    var previewLine = L.polyline(previewCoords, {
+        color: '#667eea', weight: 5, opacity: 0.55, dashArray: '8,5', lineJoin: 'round', lineCap: 'round'
     }).addTo(map);
+    routePolyline = [glow, previewLine];
+    map.fitBounds(L.latLngBounds(previewCoords), { padding: [60, 60] });
 
-    // Keep both layers so we can remove them on clear
-    routePolyline = [glowLayer, mainLine];
+    var estDist = calculateDistance(sourceNode.lat, sourceNode.lng, destNode.lat, destNode.lng);
+    var routeInfo = document.getElementById('route-info');
+    routeInfo.innerHTML =
+        '<h3>Route Information</h3>' +
+        '<p><strong>From:</strong> ' + sourceNode.name + '</p>' +
+        '<p><strong>To:</strong> ' + destNode.name + '</p>' +
+        '<p><strong>Est. Distance:</strong> ~' + Math.round(estDist) + ' m</p>' +
+        '<p><strong>Est. Walking:</strong> ~' + Math.ceil(estDist/80) + ' min</p>' +
+        '<p id="osrm-status" style="font-size:0.75rem;color:#f59e0b;margin-top:4px;">Loading road route...</p>';
 
-    // Fit map to show the full route with some padding
-    map.fitBounds(mainLine.getBounds(), { padding: [50, 50] });
+    // Single OSRM call: source to destination only - matches OpenStreetMap behaviour
+    (async function() {
+        try {
+            var url = 'https://router.project-osrm.org/route/v1/foot/' +
+                sourceNode.lng + ',' + sourceNode.lat + ';' +
+                destNode.lng   + ',' + destNode.lat +
+                '?overview=full&geometries=geojson';
 
-    // Calculate straight-line distance as a rough estimate
-    let totalDistance = 0;
-    for (let i = 0; i < waypoints.length - 1; i++) {
-        totalDistance += calculateDistance(
-            waypoints[i].lat, waypoints[i].lng,
-            waypoints[i + 1].lat, waypoints[i + 1].lng
-        );
-    }
-    const estimatedTime = Math.ceil(totalDistance / 80); // ~80 m/min walking
-    const distanceStr = totalDistance >= 1000
-        ? (totalDistance / 1000).toFixed(2) + ' km'
-        : Math.round(totalDistance) + ' m';
+            var res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
 
-    // Update route info panel
-    const routeInfo = document.getElementById('route-info');
-    routeInfo.innerHTML = `
-        <h3>📍 Route Information</h3>
-        <p><strong>From:</strong> ${sourceNode.name}</p>
-        <p><strong>To:</strong> ${destNode.name}</p>
-        <p><strong>Stops:</strong> ${waypoints.length} nodes</p>
-        <p><strong>Est. Distance:</strong> ${distanceStr}</p>
-        <p><strong>Est. Walking Time:</strong> ~${estimatedTime} min</p>
-    `;
+            var data = await res.json();
+            if (data.code !== 'Ok' || !data.routes || !data.routes.length) {
+                throw new Error('No route returned by OSRM');
+            }
 
-    console.log(`Route drawn through ${waypoints.length} nodes, ~${distanceStr}`);
+            var coords = data.routes[0].geometry.coordinates.map(function(c) { return [c[1], c[0]]; });
+            var totalDist = data.routes[0].distance;
+            var totalDur  = data.routes[0].duration;
+
+            if (coords.length < 2) throw new Error('Empty geometry');
+
+            // Replace preview with real road-following polyline
+            if (routePolyline) {
+                if (Array.isArray(routePolyline)) {
+                    routePolyline.forEach(function(l) { map.removeLayer(l); });
+                } else { map.removeLayer(routePolyline); }
+            }
+
+            var roadGlow = L.polyline(coords, {
+                color: '#a78bfa', weight: 10, opacity: 0.22, lineJoin: 'round', lineCap: 'round'
+            }).addTo(map);
+            var roadLine = L.polyline(coords, {
+                color: '#667eea', weight: 5, opacity: 0.95, lineJoin: 'round', lineCap: 'round'
+            }).addTo(map);
+            routePolyline = [roadGlow, roadLine];
+            map.fitBounds(roadLine.getBounds(), { padding: [50, 50] });
+
+            var distStr = totalDist >= 1000
+                ? (totalDist / 1000).toFixed(2) + ' km'
+                : Math.round(totalDist) + ' m';
+            var mins = Math.ceil(totalDur / 60);
+            var timeStr = mins < 60 ? mins + ' min' : Math.floor(mins/60) + 'h ' + (mins%60) + 'm';
+
+            routeInfo.innerHTML =
+                '<h3>Route Information</h3>' +
+                '<p><strong>From:</strong> ' + sourceNode.name + '</p>' +
+                '<p><strong>To:</strong> ' + destNode.name + '</p>' +
+                '<p><strong>Distance:</strong> ' + distStr + '</p>' +
+                '<p><strong>Walking Time:</strong> ' + timeStr + '</p>' +
+                '<p style="font-size:0.75rem;color:#a78bfa;margin-top:4px;">Road route via OSRM</p>';
+
+        } catch(err) {
+            console.warn('OSRM road routing failed:', err.message);
+            var status = document.getElementById('osrm-status');
+            if (status) {
+                status.textContent = 'Showing straight-line estimate';
+                status.style.color = '#f59e0b';
+            }
+        }
+    })();
 }
-
 // Calculate distance between two points using Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3; // Earth's radius in meters

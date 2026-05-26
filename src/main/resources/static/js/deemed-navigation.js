@@ -337,86 +337,76 @@ async function findPath() {
     }
 }
 
-// Show route on map connecting each node in the path sequentially
+
+
+// Show campus route: draw path directly through the algorithm's nodes
+// These nodes represent actual campus paths, so direct connection is correct.
+// OSRM is NOT used here - it routes via public roads outside campus.
 function showRouteOnMap(path) {
     if (path.length < 2) return;
 
     // Remove previous route layers
     if (routePolyline) {
         if (Array.isArray(routePolyline)) {
-            routePolyline.forEach(layer => map.removeLayer(layer));
+            routePolyline.forEach(function(layer) { map.removeLayer(layer); });
         } else {
             map.removeLayer(routePolyline);
         }
         routePolyline = null;
     }
 
-    // Collect coordinates for each node in the path in order
-    const waypoints = path
-        .filter(name => nodeData.has(name))
-        .map(name => nodeData.get(name));
+    var waypoints = path
+        .filter(function(name) { return nodeData.has(name); })
+        .map(function(name) { return nodeData.get(name); });
 
-    if (waypoints.length < 2) {
-        console.error('Not enough valid waypoints to draw route');
-        return;
-    }
+    if (waypoints.length < 2) { console.error('Not enough waypoints'); return; }
 
-    const sourceNode = waypoints[0];
-    const destNode = waypoints[waypoints.length - 1];
+    var sourceNode = waypoints[0];
+    var destNode   = waypoints[waypoints.length - 1];
 
-    // Build sequential [lat, lng] coordinates through all route nodes
-    const latlngs = waypoints.map(wp => [wp.lat, wp.lng]);
+    // Connect each consecutive campus node directly - these are the actual campus paths
+    var coords = waypoints.map(function(wp) { return [wp.lat, wp.lng]; });
 
-    // Glow / shadow layer beneath the main line
-    const glowLayer = L.polyline(latlngs, {
-        color: '#a78bfa',
-        weight: 10,
-        opacity: 0.22,
-        lineJoin: 'round',
-        lineCap: 'round'
+    // Soft glow layer
+    var glowLayer = L.polyline(coords, {
+        color: '#a78bfa', weight: 10, opacity: 0.22,
+        lineJoin: 'round', lineCap: 'round'
     }).addTo(map);
 
-    // Main route polyline
-    const mainLine = L.polyline(latlngs, {
-        color: '#667eea',
-        weight: 5,
-        opacity: 0.95,
-        lineJoin: 'round',
-        lineCap: 'round'
+    // Main campus path line
+    var mainLine = L.polyline(coords, {
+        color: '#667eea', weight: 5, opacity: 0.95,
+        lineJoin: 'round', lineCap: 'round'
     }).addTo(map);
 
-    // Keep both layers so we can remove them on clear
     routePolyline = [glowLayer, mainLine];
-
-    // Fit map to show the full route with some padding
     map.fitBounds(mainLine.getBounds(), { padding: [50, 50] });
 
-    // Calculate cumulative distance through all stops
-    let totalDistance = 0;
-    for (let i = 0; i < waypoints.length - 1; i++) {
-        totalDistance += calculateDistance(
+    // Calculate cumulative path distance
+    var totalDist = 0;
+    for (var i = 0; i < waypoints.length - 1; i++) {
+        totalDist += calculateDistance(
             waypoints[i].lat, waypoints[i].lng,
-            waypoints[i + 1].lat, waypoints[i + 1].lng
+            waypoints[i+1].lat, waypoints[i+1].lng
         );
     }
-    const estimatedTime = Math.ceil(totalDistance / 80);
-    const distanceStr = totalDistance >= 1000
-        ? (totalDistance / 1000).toFixed(2) + ' km'
-        : Math.round(totalDistance) + ' m';
+    var estMin = Math.ceil(totalDist / 80);
+    var distStr = totalDist >= 1000
+        ? (totalDist / 1000).toFixed(2) + ' km'
+        : Math.round(totalDist) + ' m';
 
-    const routeInfo = document.getElementById('route-info');
-    routeInfo.innerHTML = `
-        <h3>📍 Route Information</h3>
-        <p><strong>From:</strong> ${sourceNode.name}</p>
-        <p><strong>To:</strong> ${destNode.name}</p>
-        <p><strong>Stops:</strong> ${waypoints.length} nodes</p>
-        <p><strong>Est. Distance:</strong> ${distanceStr}</p>
-        <p><strong>Est. Walking Time:</strong> ~${estimatedTime} min</p>
-    `;
+    var routeInfo = document.getElementById('route-info');
+    routeInfo.innerHTML =
+        '<h3>\uD83D\uDCCD Route Information</h3>' +
+        '<p><strong>From:</strong> ' + sourceNode.name + '</p>' +
+        '<p><strong>To:</strong> ' + destNode.name + '</p>' +
+        '<p><strong>Stops:</strong> ' + waypoints.length + ' campus nodes</p>' +
+        '<p><strong>Campus Distance:</strong> ~' + distStr + '</p>' +
+        '<p><strong>Walking Time:</strong> ~' + estMin + ' min</p>' +
+        '<p style="font-size:0.75rem;color:#a78bfa;margin-top:4px;">\uD83C\uDFEB Campus internal path</p>';
 
-    console.log(`Route drawn through ${waypoints.length} nodes, ~${distanceStr}`);
+    console.log('Campus route drawn through ' + waypoints.length + ' nodes, ~' + distStr);
 }
-
 // Calculate distance between two points using Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3; // Earth's radius in meters
