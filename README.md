@@ -68,7 +68,7 @@ Navigate indoor corridors, outdoor pathways, and ask the AI chatbot — all from
 ┌─────────────────────────────────────────────────────────────────┐
 │                        CLIENT (Browser)                         │
 │                                                                 │
-│   React 19 + Vite 8 (Port 5173)                                │
+│   React 19 + Vite 8 (Port 5173)                                 │
 │   ┌──────────┬──────────────┬────────────────┬───────────────┐  │
 │   │  Navbar  │     Hero     │   MapViewer    │ ChatbotViewer │  │
 │   │          │  QuickAccess │   (Leaflet)    │               │  │
@@ -88,25 +88,25 @@ Navigate indoor corridors, outdoor pathways, and ask the AI chatbot — all from
 │   ├─ GET  /api/navigate         ├─ GET  /api/chatbot/rooms      │
 │   └─ POST /api/node-details     └─ GET  /api/chatbot/health     │
 │          │                               │                      │
-│          ▼                               │ HTTP Proxy            │
+│          ▼                               │ HTTP Proxy           │
 │   GraphService                           ▼                      │
-│   ├─ BFS Algorithm              ┌─────────────────────┐        │
+│   ├─ BFS Algorithm              ┌─────────────────────┐         │
 │   └─ Dijkstra Algorithm         │  Flask API (Py:5000) │        │
 │          │                      │  NLP Query Parser    │        │
 │          ▼                      │  Regex Room Matcher  │        │
-│   DatabaseAccess (JDBC)         └─────────┬───────────┘        │
+│   DatabaseAccess (JDBC)         └─────────┬───────────┘         │
 │          │                                │                     │
 └──────────┼────────────────────────────────┼─────────────────────┘
            │                                │
            ▼                                ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    MySQL Database (Port 3306)                    │
-│                   Database: campus_navigation                    │
+│                    MySQL Database (Port 3306)                   │
+│                   Database: campus_navigation                   │
 │                                                                 │
-│   ┌──────────────┐  ┌──────────────┐  ┌───────────────┐        │
-│   │ nodes_deemed │  │ nodes_hill   │  │ nodes_outer   │        │
-│   │ edges_deemed │  │ edges_hill   │  │ edges_outer   │        │
-│   └──────────────┘  └──────────────┘  └───────────────┘        │
+│   ┌──────────────┐  ┌──────────────┐  ┌───────────────┐         │
+│   │ nodes_deemed │  │ nodes_hill   │  │ nodes_outer   │         │
+│   │ edges_deemed │  │ edges_hill   │  │ edges_outer   │         │
+│   └──────────────┘  └──────────────┘  └───────────────┘         │
 │                                                                 │
 │   ┌──────────────────────┐                                      │
 │   │ classroom_locations  │  ← Chatbot queries this table        │
@@ -394,6 +394,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 **⭐ If you found this project helpful, give it a star!**
 
-[![GitHub stars](https://img.shields.io/github/stars/iamsonaliu/Campus_Navigation?style=social)](https://github.com/iamsonaliu/Campus_Navigation)
+[![GitHub stars](https://img.shields.io/github/stars/iamsonaliu/Campus_Navigation?style=social)](https://github.com/Mohitbohra18/Campus_Nav.git)
 
 </div>
